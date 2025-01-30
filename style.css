@@ -1,0 +1,352 @@
+/* Box sizing rules */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Remove default margin and padding for all elements */
+* {
+  margin: 0;
+  padding: 0;
+}
+
+/* Remove border for focused elements */
+*:focus {
+  outline: none;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, main, menu, nav, section {
+  display: block;
+}
+
+/* Set core body defaults */
+body {
+  line-height: 1.5;
+  min-height: 100vh;
+  text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Ensure consistent default font family and size */
+html, body, button, input, select, textarea {
+  font-family: inherit;
+  font-size: 100%;
+}
+
+/* Remove default list styles */
+ul, ol {
+  list-style: none;
+}
+
+/* Remove default margin from common block elements */
+h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd {
+  margin: 0;
+}
+
+/* Remove default padding and margin from table elements */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+caption, th, td {
+  text-align: left;
+  vertical-align: top;
+  padding: 0;
+}
+
+/* Set image defaults */
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Set form element defaults */
+button, input, textarea, select {
+  margin: 0; /* Remove the margin in Firefox and Safari */
+  font-family: inherit;
+  font-size: inherit;
+  line-height: 1.15;
+  color: inherit;
+  border: none;
+}
+
+button, input {
+  overflow: visible;
+}
+
+button, select {
+  text-transform: none;
+}
+
+/* Remove inner border and padding in Firefox */
+::-moz-focus-inner {
+  border-style: none;
+  padding: 0;
+}
+
+/* Restore focus styles unset by the previous rule */
+:-moz-focusring {
+  outline: 1px dotted ButtonText;
+}
+
+/* Remove additional ':invalid' styles in Firefox */
+:-moz-ui-invalid {
+  box-shadow: none;
+}
+
+/* Remove default styles for anchor tags without class */
+a:not([class]) {
+  text-decoration-skip-ink: auto;
+  color: inherit;
+}
+
+/* Miscellaneous */
+hr {
+  height: 0;
+  border: none;
+  border-top: 1px solid;
+  color: inherit;
+}
+
+abbr[title] {
+  text-decoration: underline dotted;
+}
+
+b, strong {
+  font-weight: bolder;
+}
+
+code, kbd, samp, pre {
+  font-family: ui-monospace, SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 1em;
+}
+
+small {
+  font-size: 80%;
+}
+
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+sup {
+  top: -0.5em;
+}
+
+textarea {
+  overflow: auto;
+  resize: vertical;
+}
+
+/* Inherit fonts for form controls */
+input, button, textarea, select {
+  font: inherit;
+}
+
+textarea:not([rows]) {
+  min-height: 10em;
+}
+
+::-webkit-inner-spin-button,
+::-webkit-outer-spin-button {
+  height: auto;
+}
+
+[type="search"] {
+  appearance: textfield;
+  -webkit-appearance: textfield;
+  outline-offset: -2px;
+}
+
+::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+::-webkit-file-upload-button {
+  -webkit-appearance: button;
+  font: inherit;
+}
+
+summary {
+  display: list-item;
+}
+
+:root {
+  line-height: 1.5;
+}
+
+h1, h2, h3, h4, h5, figure, p, ol, ul {
+  margin: 0;
+}
+
+ol, ul {
+  list-style: none;
+  padding-inline: 0;
+}
+
+h1, h2, h3, h4, h5 {
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+img {
+  display: block;
+  max-inline-size: 100%;
+}
+
+/* Remove blue color and underline for web links */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+ 
+/* MY CODE BEGINS HERE */
+:root {
+  --primary-dark: #333;
+  --primary-light: #eeeeee;
+  --secondary-light: #fefefe;
+}
+
+/* we need a nice font here */
+@font-face {
+  font-family: Nunito;
+  font-style: normal;
+  font-weight: 400;
+  src: url("./font/nunito.woff2") format("woff2");
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 50px;
+  font-family: Nunito;
+  background-color: white;
+  gap: 20px;
+  color: var(--primary-dark);
+}
+
+/* make the title nice, big, and in the center */
+#game-title {
+  font-size: 80px;
+}
+
+/* gameboard styling. make it into a grid that fits all of its children and
+sized right*/
+#gameboard {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr 10px) 1fr;
+  grid-template-rows: repeat(2, 1fr 10px) 1fr;
+  width: min(600px, 80vw);
+  /* making height auto, gives full control to width and aspect-ratio to 
+  determine the size of gameboard */
+  height: auto;
+  /* aspect-ratio makes the gameboard square regardless of screen size */
+  aspect-ratio: 1 / 1;
+}
+
+/* the cells don't need to be positioned since the lines force them into 
+their proper positions (the lines take up positions that the cells should not
+have */
+
+/* all cells need certain rules to be proper cells */
+.cell {
+  cursor: pointer;
+  transition: transform 0.4s ease, box-shadow 0.4s ease, background-color 0.4s ease;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  font-size: 90px;
+}
+
+/* whenever I hover over an empty cell (no children or text), it should have
+an indent effect or something. */
+.cell:hover:empty {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  background-color: var(--primary-light);
+}
+
+/* when a game is over, we need to disable all cells, so users can't feel like 
+they can still play. Let's disable the hover effect for disabled cells */
+.cell.disabled-cell:hover {
+  transform: none;
+  box-shadow: none;
+  background-color: white;
+  cursor: default;
+}
+
+/* all lines need certain rules to be proper lines */
+.line {
+  background-color: var(--primary-dark);
+  border-radius: 5px;
+  /* line should stay below the cells */
+  z-index: 0;
+}
+
+
+/* gameboard lines need to be positioned */
+.line.vertical {
+  grid-row: 1 / 6;
+}
+
+.line.horizontal {
+  grid-column: 1 / 6;
+}
+
+#v1 {
+  grid-column: 2 / 3;
+}
+
+#v2 {
+  grid-column: 4 / 5;
+}
+
+#h1 {
+  grid-row: 2 / 3;
+}
+
+#h2 {
+  grid-row: 4 / 5;
+}
+
+#reset-button {
+  background-color: white;
+  padding: 10px 30px;
+  margin-top: 50px;
+  cursor: pointer;
+  border-radius: 5px;
+  border: 2px solid var(--primary-dark);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.4s ease, box-shadow 0.4s ease, background-color 0.4s ease;
+}
+
+#reset-button:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  background-color: var(--primary-light);
+}
+
+#reset-button svg {
+  height: 50px;
+  width: 50px;
+}
+
