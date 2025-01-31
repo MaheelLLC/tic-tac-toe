@@ -272,7 +272,7 @@ have */
   justify-content: center;
   align-items: center;
   background-color: #fff;
-  font-size: 90px;
+  font-size: 80px;
 }
 
 /* whenever I hover over an empty cell (no children or text), it should have
@@ -350,3 +350,21 @@ they can still play. Let's disable the hover effect for disabled cells */
   width: 50px;
 }
 
+#game-message {
+  height: auto;
+  width: min(600px, 80vw);
+  text-align: center;
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+#whose-turn {
+  font-size: 20px;
+  margin-top: -20px;
+}
+
+@media (max-width: 950px) {
+  #game-title {
+    font-size: 70px;
+  }
+}

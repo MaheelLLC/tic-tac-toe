@@ -14,15 +14,6 @@ const Gameboard = (() => {
     const setCell = (index, marker) => board[index] = marker;
     // a helper function to reset the board back to empty
     const reset = () => board.fill("");
-    // // the display function is now here
-    // const display = () => {
-    //     // just console log it for now
-    //     console.log(`${board[0]} | ${board[1]} | ${board[2]}\n` +
-    //         `---------\n` +
-    //         `${board[3]} | ${board[4]} | ${board[5]}\n` +
-    //         `---------\n` + 
-    //         `${board[6]} | ${board[7]} | ${board[8]}`);
-    // };
     // let's return the helper functions so the game can use them
     return { getCell, setCell, reset };
 })();
@@ -31,19 +22,30 @@ const Gameboard = (() => {
 const TicTacToeGame = (() => {
     // player X (no need to define Gameboard since it's an immediately invoked module)
     // we're gonna put this into an outer function later (we'll set playerX and O with an outer function
-    // so we can have custom names
-    const playerX = Player('X');
-    const playerO = Player('O');
-    // a flag to see if the game is over
+    // so we can have custom names)
+    let playerX = Player('X');
+    let playerO = Player('O');
+
+    // a flag to see if the game is over, since we just started, it's not
     let gameOver = false;
+
+    // call this function when we can update the player names based on user input
+    const setPlayers = (newPlayerX, newPlayerO) => {
+        playerX = newPlayerX;
+        playerO = newPlayerO;
+    }
+
     // store whose turn it is (starts at X)
     let currentPlayer = playerX;
+    // store whose turn it's not :)
+    let notCurrentPlayer = playerO;
     // store how many turns it has been
     let numberOfTurns = 0;
 
     // just makes the player switch look cleaner later on
     const switchPlayer = () => {
         currentPlayer = (currentPlayer === playerX) ? playerO : playerX;
+        notCurrentPlayer = (notCurrentPlayer === playerX) ? playerO : playerX;
     };
 
     const checkWin = (player, index) => {
@@ -139,7 +141,7 @@ const TicTacToeGame = (() => {
             // if this move was a game winner
             if (checkWin(currentPlayer, index)) {
                 // notify the users who won
-                console.log(`Player ${currentPlayer.marker} wins!`);
+                DisplayController.displayMessage(`${currentPlayer.name} wins. Player ${notCurrentPlayer.marker}, you suck.`);
                 // the game is over, so let the flag know
                 gameOver = true;
                 // disable all cells once the game is over
@@ -154,7 +156,7 @@ const TicTacToeGame = (() => {
             // if the gameboard is completely filled
             if (numberOfTurns >= 8) {
                 // let the users know a tie has occurred
-                console.log("It's a tie");
+                DisplayController.displayMessage("It's a tie. You both suck.");
                 // the game is over, so let the flag know
                 gameOver = true;
                 // disable all cells once the game is over
@@ -169,14 +171,12 @@ const TicTacToeGame = (() => {
             DisplayController.updateTurnIndicator(currentPlayer);
             // increment the number of turns
             numberOfTurns++;
-            // Gameboard.display();
-            // return whether or not the turn was a game winner
+            // return false since no one won yet
             return false;
         // here the spot is already taken
         } else {
             // notify the user
-            console.log("Sorry this spot is already taken. Try again.");
-            // Gameboard.display();
+            DisplayController.displayMessage("Are you blind? This spot is already taken. Try again.");
             // return false since no one won yet
             return false;
         }
@@ -189,6 +189,8 @@ const TicTacToeGame = (() => {
         DisplayController.full_render();
         // set the currentPlayer to X
         currentPlayer = playerX;
+        // set the notCurrentPlayer to O
+        notCurrentPlayer = playerO;
         // display the current player's turn
         DisplayController.updateTurnIndicator(currentPlayer);
         // reset the number of turns
@@ -198,33 +200,18 @@ const TicTacToeGame = (() => {
         // activate the cells to play with
         DisplayController.activateCells();
         // let the user know that the game has begun
-        console.log("Let the tictactoe game begin.");
+        DisplayController.displayMessage("Let the tictactoe game begin.");
         // RENDER: Everywhere Gameboard.display() occurs, we need to render on the screen
-        // display the board for X to start
         // Gameboard.display();
     }
 
     return {
         makeMove,
         startGame,
+        setPlayers,
     }
 
 })();
-
-// sadly a useless function
-// function getPlayerInput(user_index) {
-//     // this will convert the user's input to an integer
-//     // if the user provides something else (letters or something), this will
-//     // return a NaN
-//     const index = parseInt(user_index);
-//     // if the index is a number between 0 and 8
-//     if ((!isNaN(index)) && (index >= 0 && index <= 8)) {
-//         return index;
-//     } else {
-//         console.log("Please provide valid input (a number between 0-8)");
-//         return null;
-//     }
-// }
 
 document.addEventListener('DOMContentLoaded', function() {
     // start the game (which displays the board and waits for a player's turn)
@@ -236,6 +223,11 @@ document.addEventListener('DOMContentLoaded', function() {
 const DisplayController = (() => {
     // grab the gameboard element
     const gameboardElement = document.querySelector("#gameboard");
+    // grab the reset button element
+    const resetButton = document.querySelector('#reset-button');
+    // grab the game state message board
+    const gameStateMessage = document.querySelector('#game-message');
+
     // add a click event listener to the gameboard
     gameboardElement.addEventListener("click", (event) => {
         // if the user clicked a cell inside the gameboard
@@ -246,15 +238,6 @@ const DisplayController = (() => {
             TicTacToeGame.makeMove(index);
         }
     });
-    
-    /*
-    We need two functions. One function will be called turn_render. The other
-    function will be called full_render. turn_render will add a marker to 
-    the screen where the player's marker will be placed inside the appropriate
-    cell. We have to attach the makeMove function to each gameboard cell and
-    make makeMove call turn_render. The second function is a full render that
-    will iterate through the children of the gameboardElement and place the
-    respective marker from the Gameboard array inside every child. */
 
     // defines a helper function for a single turn to render the marker
     const turn_render = (index, marker) => {
@@ -297,6 +280,16 @@ const DisplayController = (() => {
         });
     };
 
+    // we need to start a new game everytime the reset button is clicked
+    resetButton.addEventListener('click', () => {
+        TicTacToeGame.startGame();
+    });
+
+    // add text inside the message board at certain times of the game
+    function displayMessage(text) {
+        gameStateMessage.textContent = text;
+    }
+
 
     return {
         turn_render,
@@ -304,5 +297,6 @@ const DisplayController = (() => {
         updateTurnIndicator,
         disableCells,
         activateCells,
+        displayMessage,
     }
 })();
