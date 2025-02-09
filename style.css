@@ -243,6 +243,7 @@ body {
 /* make the title nice, big, and in the center */
 #game-title {
   font-size: 80px;
+  line-height: 100%;
 }
 
 /* gameboard styling. make it into a grid that fits all of its children and
@@ -328,15 +329,15 @@ they can still play. Let's disable the hover effect for disabled cells */
 
 #reset-button {
   background-color: white;
-  padding: 10px 30px;
-  margin-top: 50px;
+  padding: 10px 40px;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 50px;
+  width: fit-content;
   border: 2px solid var(--primary-dark);
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: transform 0.4s ease, box-shadow 0.4s ease, background-color 0.4s ease;
+  transition: transform 0.4s ease, box-shadow 0.4s ease, background-color 0.1s ease;
 }
 
 #reset-button:hover {
@@ -348,23 +349,181 @@ they can still play. Let's disable the hover effect for disabled cells */
 #reset-button svg {
   height: 50px;
   width: 50px;
+  fill: var(--primary-dark);
 }
 
 #game-message {
-  height: auto;
-  width: min(600px, 80vw);
   text-align: center;
   font-size: 20px;
-  margin-bottom: 20px;
+  justify-content: center;
+  align-items: center;
+  order: 1;
+  width: 200px;
 }
 
-#whose-turn {
+#player-setup-form {
+  margin-top: 40px;
+  gap: 30px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 
+search_bar = player-input-container
+search = player-x-name and player-o-name
+search_bar_title = player-x-label and player-o-label
+*/
+.player-input-container {
+  position: relative;
+}
+
+#player-x-name,
+#player-o-name {
+  background-color: #fff;
+  height: 60px;
+  width: 300px;
+  box-sizing: border-box;
+  padding: 0 20px;
+  border: 3px solid var(--primary-dark);
+  border-radius: 35px;
+  font-size: 25px;
+  display: block;
+  transition: transform 0.4s ease, box-shadow 0.4s ease, background-color 0.4s ease;
+}
+
+#player-x-name:hover,
+#player-o-name:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  background-color: var(--primary-light);
+}
+
+#player-x-name:focus,
+#player-o-name:focus {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  background-color: #fff;
+}
+
+#player-x-name:valid ~ span,
+#player-o-name:valid ~ span {
+  transform: translateY(-26px);
+  font-size: 0.8rem;
+  padding: 0 6px;
+  background-color: var(--primary-dark);
+  color: white;
+  border-radius: 4px;
+}
+
+#player-x-name:focus ~ span,
+#player-o-name:focus ~ span {
+  transform: translateY(-31px);
+  font-size: 0.8rem;
+  padding: 0 6px;
+  background-color: var(--primary-dark);
+  color: white;
+  border-radius: 4px;
+}
+
+#player-x-label,
+#player-o-label {
+  letter-spacing: 0.05rem;
+  text-transform: uppercase;
+  font-size: 1.2rem;
+  transition: all 0.4s;
+  position: absolute;
+  top: 18px;
+  left: 20px;
+}
+
+#start-game-button {
+  background-color: white;
+  padding: 10px 30px;
+  margin-top: 20px;
+  cursor: pointer;
+  border-radius: 40px;
+  border: 3px solid var(--primary-dark);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 150px;
+  transition: transform 0.4s ease, box-shadow 0.4s ease, background-color 0.1s ease;
+}
+
+#start-game-button:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  background-color: var(--primary-light);
+}
+
+#start-game-button svg {
+  height: 50px;
+  width: 50px;
+  fill: var(--primary-dark);
+}
+
+#change-name-button {
+  background-color: white;
+  padding: 10px 40px;
+  cursor: pointer;
+  border-radius: 50px;
+  border: 2px solid var(--primary-dark);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.4s ease, box-shadow 0.4s ease, background-color 0.1s ease;
+}
+
+#change-name-button:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  background-color: var(--primary-light);
+}
+
+#game-settings {
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+#start-game-button:active,
+#reset-button:active,
+#change-name-button:active {
+  background-color: var(--primary-dark);
+}
+
+#start-game-button:active svg,
+#reset-button:active svg,
+#change-name-button:active svg {
+  fill: var(--primary-light);
+}
+
+#change-name-button svg {
+  width: 50px;
+  height: 100%;
+  fill: var(--primary-dark);
+}
+
+#player-section {
   font-size: 20px;
-  margin-top: -20px;
+  border: 3px solid var(--primary-dark);
+  padding: 10px;
+  border-radius: 10px;
+  box-sizing: border-box;
+  width: 250px;
+}
+
+#game-information {
+  display: flex;
+  gap: 20px;
+  width: 450px;
 }
 
 @media (max-width: 950px) {
   #game-title {
     font-size: 70px;
+  }
+  body {
+    padding: 25px;
   }
 }
