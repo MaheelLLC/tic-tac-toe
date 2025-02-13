@@ -517,6 +517,7 @@ search_bar_title = player-x-label and player-o-label
   display: flex;
   gap: 20px;
   width: 450px;
+  flex-wrap: wrap;
 }
 
 @media (max-width: 950px) {
