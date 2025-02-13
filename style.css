@@ -518,6 +518,8 @@ search_bar_title = player-x-label and player-o-label
   gap: 20px;
   width: 450px;
   flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
 }
 
 @media (max-width: 950px) {
