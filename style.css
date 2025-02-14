@@ -359,6 +359,7 @@ they can still play. Let's disable the hover effect for disabled cells */
   align-items: center;
   order: 1;
   width: 200px;
+  height: 220px;
 }
 
 #player-setup-form {
@@ -516,7 +517,7 @@ search_bar_title = player-x-label and player-o-label
 #game-information {
   display: flex;
   gap: 20px;
-  width: 450px;
+  width: 80%;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
